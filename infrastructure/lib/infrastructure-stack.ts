@@ -2,6 +2,8 @@ import * as cdk from 'aws-cdk-lib';
 import * as s3 from 'aws-cdk-lib/aws-s3';
 import * as lambda from 'aws-cdk-lib/aws-lambda';
 import * as apigateway from 'aws-cdk-lib/aws-apigateway';
+import * as s3deploy from 'aws-cdk-lib/aws-s3-deployment';
+
 import * as iam from 'aws-cdk-lib/aws-iam';
 
 import { Construct } from 'constructs';
@@ -14,6 +16,8 @@ export class InfrastructureStack extends cdk.Stack {
     const bucket = new s3.Bucket(this, 'uploadedFile', {
       versioned: true,
       removalPolicy: cdk.RemovalPolicy.DESTROY,
+      websiteIndexDocument: 'index.html',
+      websiteErrorDocument: 'index.html',
     });
 
     // IAM Role for Lambda to access Textract and S3
@@ -46,5 +50,11 @@ export class InfrastructureStack extends cdk.Stack {
 
     // Grant S3 read permissions to Lambda
     bucket.grantReadWrite(extractTextLambda);
+
+    //Deploy the website
+    new s3deploy.BucketDeployment(this, 'deployWebsite', {
+      sources: [s3deploy.Source.asset('../web/build')],
+      destinationBucket: bucket,
+    });
   }
 }
