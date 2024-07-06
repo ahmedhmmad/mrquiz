@@ -144,7 +144,7 @@
      "S3Bucket": {
       "Fn::Sub": "cdk-hnb659fds-assets-${AWS::AccountId}-${AWS::Region}"
      },
-     "S3Key": "775bab161f6c571813792da989feae22654ca4499c99369074488b6fa0b7e4ea.zip"
+     "S3Key": "3190eaf35acd99e8b12fbf4055489de3463613bb98ca50f8375b065e4339b37d.zip"
     },
     "Environment": {
      "Variables": {
@@ -168,7 +168,7 @@
    ],
    "Metadata": {
     "aws:cdk:path": "InfrastructureStack/extractTextFunction/Resource",
-    "aws:asset:path": "asset.775bab161f6c571813792da989feae22654ca4499c99369074488b6fa0b7e4ea",
+    "aws:asset:path": "asset.3190eaf35acd99e8b12fbf4055489de3463613bb98ca50f8375b065e4339b37d",
     "aws:asset:is-bundled": false,
     "aws:asset:property": "Code"
    }
