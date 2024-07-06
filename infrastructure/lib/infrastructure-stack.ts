@@ -2,10 +2,8 @@ import * as cdk from 'aws-cdk-lib';
 import * as s3 from 'aws-cdk-lib/aws-s3';
 import * as lambda from 'aws-cdk-lib/aws-lambda';
 import * as apigateway from 'aws-cdk-lib/aws-apigateway';
-import * as s3deploy from 'aws-cdk-lib/aws-s3-deployment';
-
 import * as iam from 'aws-cdk-lib/aws-iam';
-
+import * as s3deploy from 'aws-cdk-lib/aws-s3-deployment';
 import { Construct } from 'constructs';
 
 export class InfrastructureStack extends cdk.Stack {
@@ -13,11 +11,12 @@ export class InfrastructureStack extends cdk.Stack {
     super(scope, id, props);
 
     // S3 Bucket for storing uploaded files
-    const bucket = new s3.Bucket(this, 'uploadedFile', {
+    const bucket = new s3.Bucket(this, 'newUploadedFile', {
       versioned: true,
       removalPolicy: cdk.RemovalPolicy.DESTROY,
       websiteIndexDocument: 'index.html',
       websiteErrorDocument: 'index.html',
+     // publicReadAccess: true,
     });
 
     // IAM Role for Lambda to access Textract and S3
@@ -25,7 +24,9 @@ export class InfrastructureStack extends cdk.Stack {
       assumedBy: new iam.ServicePrincipal('lambda.amazonaws.com'),
     });
 
-    textExtractRole.addManagedPolicy(iam.ManagedPolicy.fromAwsManagedPolicyName('service-role/AWSLambdaBasicExecutionRole'));
+    textExtractRole.addManagedPolicy(
+      iam.ManagedPolicy.fromAwsManagedPolicyName('service-role/AWSLambdaBasicExecutionRole')
+    );
     textExtractRole.addManagedPolicy(iam.ManagedPolicy.fromAwsManagedPolicyName('AmazonTextractFullAccess'));
     textExtractRole.addManagedPolicy(iam.ManagedPolicy.fromAwsManagedPolicyName('AmazonS3FullAccess'));
 
@@ -36,7 +37,7 @@ export class InfrastructureStack extends cdk.Stack {
       code: lambda.Code.fromAsset('lambda'),
       role: textExtractRole,
       environment: {
-        BUCKET_NAME: bucket.bucketName, // Ensure the environment variable name matches what the Lambda function expects
+        BUCKET_NAME: bucket.bucketName,
       },
     });
 
@@ -51,9 +52,9 @@ export class InfrastructureStack extends cdk.Stack {
     // Grant S3 read permissions to Lambda
     bucket.grantReadWrite(extractTextLambda);
 
-    //Deploy the website
-    new s3deploy.BucketDeployment(this, 'deployWebsite', {
-      sources: [s3deploy.Source.asset('../web/build')],
+    // Deploy React app to S3 bucket
+    new s3deploy.BucketDeployment(this, 'DeployWebsite', {
+      sources: [s3deploy.Source.asset('./web/build')],
       destinationBucket: bucket,
     });
   }
