@@ -182,7 +182,7 @@
     "aws:cdk:path": "InfrastructureStack/extractTextApi/Resource"
    }
   },
-  "extractTextApiDeploymentA10057544c4923e7263f4e57ba2e862b89bf4835": {
+  "extractTextApiDeploymentA100575476ea3b554e2ad69025c26904f2f59680": {
    "Type": "AWS::ApiGateway::Deployment",
    "Properties": {
     "Description": "Automatically created by the RestApi construct",
@@ -191,6 +191,7 @@
     }
    },
    "DependsOn": [
+    "extractTextApiOPTIONSFCF78814",
     "extractTextApiPOSTE872A561"
    ],
    "Metadata": {
@@ -201,7 +202,7 @@
    "Type": "AWS::ApiGateway::Stage",
    "Properties": {
     "DeploymentId": {
-     "Ref": "extractTextApiDeploymentA10057544c4923e7263f4e57ba2e862b89bf4835"
+     "Ref": "extractTextApiDeploymentA100575476ea3b554e2ad69025c26904f2f59680"
     },
     "RestApiId": {
      "Ref": "extractTextApi690A7E22"
@@ -210,6 +211,52 @@
    },
    "Metadata": {
     "aws:cdk:path": "InfrastructureStack/extractTextApi/DeploymentStage.prod/Resource"
+   }
+  },
+  "extractTextApiOPTIONSFCF78814": {
+   "Type": "AWS::ApiGateway::Method",
+   "Properties": {
+    "ApiKeyRequired": false,
+    "AuthorizationType": "NONE",
+    "HttpMethod": "OPTIONS",
+    "Integration": {
+     "IntegrationResponses": [
+      {
+       "ResponseParameters": {
+        "method.response.header.Access-Control-Allow-Headers": "'Content-Type,X-Amz-Date,Authorization,X-Api-Key,X-Amz-Security-Token'",
+        "method.response.header.Access-Control-Allow-Origin": "'*'",
+        "method.response.header.Access-Control-Allow-Methods": "'OPTIONS,GET,PUT,POST,DELETE,PATCH,HEAD'"
+       },
+       "StatusCode": "204"
+      }
+     ],
+     "RequestTemplates": {
+      "application/json": "{ statusCode: 200 }"
+     },
+     "Type": "MOCK"
+    },
+    "MethodResponses": [
+     {
+      "ResponseParameters": {
+       "method.response.header.Access-Control-Allow-Headers": true,
+       "method.response.header.Access-Control-Allow-Origin": true,
+       "method.response.header.Access-Control-Allow-Methods": true
+      },
+      "StatusCode": "204"
+     }
+    ],
+    "ResourceId": {
+     "Fn::GetAtt": [
+      "extractTextApi690A7E22",
+      "RootResourceId"
+     ]
+    },
+    "RestApiId": {
+     "Ref": "extractTextApi690A7E22"
+    }
+   },
+   "Metadata": {
+    "aws:cdk:path": "InfrastructureStack/extractTextApi/Default/OPTIONS/Resource"
    }
   },
   "extractTextApiPOSTApiPermissionInfrastructureStackextractTextApiDA4FB8E6POST7F195EFF": {

@@ -44,7 +44,14 @@ export class InfrastructureStack extends cdk.Stack {
     // API Gateway to expose the Lambda function
     const api = new apigateway.RestApi(this, 'extractTextApi', {
       restApiName: 'Quiz Generator Service',
+      defaultCorsPreflightOptions: {
+        allowOrigins: apigateway.Cors.ALL_ORIGINS,
+        allowMethods: apigateway.Cors.ALL_METHODS,
+        allowHeaders: ['Content-Type', 'X-Amz-Date', 'Authorization', 'X-Api-Key', 'X-Amz-Security-Token'],
+      },
     });
+    
+    
 
     const uploadIntegration = new apigateway.LambdaIntegration(extractTextLambda);
     api.root.addMethod('POST', uploadIntegration);
