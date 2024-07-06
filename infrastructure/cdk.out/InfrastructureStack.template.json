@@ -422,7 +422,7 @@
      }
     ],
     "SourceObjectKeys": [
-     "bb93ae65bcab0de11deb5ac0e83c6777051333a792f8f087534850ec7ec49b7b.zip"
+     "acd85564614d06994835131f2ad4a0abf4fac635f550cdbca572445e9bc94e73.zip"
     ],
     "DestinationBucketName": {
      "Ref": "newUploadedFile2AB9B21E"
