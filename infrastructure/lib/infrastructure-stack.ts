@@ -54,7 +54,7 @@ export class InfrastructureStack extends cdk.Stack {
 
     // Deploy React app to S3 bucket
     new s3deploy.BucketDeployment(this, 'DeployWebsite', {
-      sources: [s3deploy.Source.asset('./web/build')],
+      sources: [s3deploy.Source.asset('../web/build')],
       destinationBucket: bucket,
     });
   }

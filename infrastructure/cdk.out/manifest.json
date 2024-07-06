@@ -18,7 +18,7 @@
         "validateOnSynth": false,
         "assumeRoleArn": "arn:${AWS::Partition}:iam::${AWS::AccountId}:role/cdk-hnb659fds-deploy-role-${AWS::AccountId}-${AWS::Region}",
         "cloudFormationExecutionRoleArn": "arn:${AWS::Partition}:iam::${AWS::AccountId}:role/cdk-hnb659fds-cfn-exec-role-${AWS::AccountId}-${AWS::Region}",
-        "stackTemplateAssetObjectUrl": "s3://cdk-hnb659fds-assets-${AWS::AccountId}-${AWS::Region}/60f25e7ac3ef3b281ba1a5e43e554373c068736fee79ddb007e9fe953c432e10.json",
+        "stackTemplateAssetObjectUrl": "s3://cdk-hnb659fds-assets-${AWS::AccountId}-${AWS::Region}/cd329d6d659f3022bd58efb7cf77221a7e28ad66ac8faed5dc9fb9c57e2bae82.json",
         "requiresBootstrapStackVersion": 6,
         "bootstrapStackVersionSsmParameter": "/cdk-bootstrap/hnb659fds/version",
         "additionalDependencies": [
@@ -34,10 +34,10 @@
         "InfrastructureStack.assets"
       ],
       "metadata": {
-        "/InfrastructureStack/uploadedFile/Resource": [
+        "/InfrastructureStack/newUploadedFile/Resource": [
           {
             "type": "aws:cdk:logicalId",
-            "data": "uploadedFile4AE25CB8"
+            "data": "newUploadedFile2AB9B21E"
           }
         ],
         "/InfrastructureStack/TextractRole/Resource": [
@@ -100,16 +100,16 @@
             "data": "extractTextApiPOSTE872A561"
           }
         ],
-        "/InfrastructureStack/deployWebsite/AwsCliLayer/Resource": [
+        "/InfrastructureStack/DeployWebsite/AwsCliLayer/Resource": [
           {
             "type": "aws:cdk:logicalId",
-            "data": "deployWebsiteAwsCliLayerE09F1D49"
+            "data": "DeployWebsiteAwsCliLayer17DBC421"
           }
         ],
-        "/InfrastructureStack/deployWebsite/CustomResource/Default": [
+        "/InfrastructureStack/DeployWebsite/CustomResource/Default": [
           {
             "type": "aws:cdk:logicalId",
-            "data": "deployWebsiteCustomResource762FD078"
+            "data": "DeployWebsiteCustomResourceD116527B"
           }
         ],
         "/InfrastructureStack/Custom::CDKBucketDeployment8693BB64968944B69AAFB0CC9EB8756C/ServiceRole/Resource": [

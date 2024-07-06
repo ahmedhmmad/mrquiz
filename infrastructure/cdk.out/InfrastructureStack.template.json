@@ -1,11 +1,11 @@
 {
  "Resources": {
-  "uploadedFile4AE25CB8": {
+  "newUploadedFile2AB9B21E": {
    "Type": "AWS::S3::Bucket",
    "Properties": {
     "Tags": [
      {
-      "Key": "aws-cdk:cr-owned:ecfb6331",
+      "Key": "aws-cdk:cr-owned:eef8bb98",
       "Value": "true"
      }
     ],
@@ -20,7 +20,7 @@
    "UpdateReplacePolicy": "Delete",
    "DeletionPolicy": "Delete",
    "Metadata": {
-    "aws:cdk:path": "InfrastructureStack/uploadedFile/Resource"
+    "aws:cdk:path": "InfrastructureStack/newUploadedFile/Resource"
    }
   },
   "TextractRoleA0CE91FA": {
@@ -103,7 +103,7 @@
        "Resource": [
         {
          "Fn::GetAtt": [
-          "uploadedFile4AE25CB8",
+          "newUploadedFile2AB9B21E",
           "Arn"
          ]
         },
@@ -113,7 +113,7 @@
           [
            {
             "Fn::GetAtt": [
-             "uploadedFile4AE25CB8",
+             "newUploadedFile2AB9B21E",
              "Arn"
             ]
            },
@@ -144,12 +144,12 @@
      "S3Bucket": {
       "Fn::Sub": "cdk-hnb659fds-assets-${AWS::AccountId}-${AWS::Region}"
      },
-     "S3Key": "d607ba489db83b89018669feb11b4859e9f8e03dadf564a9ba1ab2e80b6a0ee8.zip"
+     "S3Key": "775bab161f6c571813792da989feae22654ca4499c99369074488b6fa0b7e4ea.zip"
     },
     "Environment": {
      "Variables": {
       "BUCKET_NAME": {
-       "Ref": "uploadedFile4AE25CB8"
+       "Ref": "newUploadedFile2AB9B21E"
       }
      }
     },
@@ -168,7 +168,7 @@
    ],
    "Metadata": {
     "aws:cdk:path": "InfrastructureStack/extractTextFunction/Resource",
-    "aws:asset:path": "asset.d607ba489db83b89018669feb11b4859e9f8e03dadf564a9ba1ab2e80b6a0ee8",
+    "aws:asset:path": "asset.775bab161f6c571813792da989feae22654ca4499c99369074488b6fa0b7e4ea",
     "aws:asset:is-bundled": false,
     "aws:asset:property": "Code"
    }
@@ -342,7 +342,7 @@
     "aws:cdk:path": "InfrastructureStack/extractTextApi/Default/POST/Resource"
    }
   },
-  "deployWebsiteAwsCliLayerE09F1D49": {
+  "DeployWebsiteAwsCliLayer17DBC421": {
    "Type": "AWS::Lambda::LayerVersion",
    "Properties": {
     "Content": {
@@ -354,13 +354,13 @@
     "Description": "/opt/awscli/aws"
    },
    "Metadata": {
-    "aws:cdk:path": "InfrastructureStack/deployWebsite/AwsCliLayer/Resource",
+    "aws:cdk:path": "InfrastructureStack/DeployWebsite/AwsCliLayer/Resource",
     "aws:asset:path": "asset.3322b7049fb0ed2b7cbb644a2ada8d1116ff80c32dca89e6ada846b5de26f961.zip",
     "aws:asset:is-bundled": false,
     "aws:asset:property": "Content"
    }
   },
-  "deployWebsiteCustomResource762FD078": {
+  "DeployWebsiteCustomResourceD116527B": {
    "Type": "Custom::CDKBucketDeployment",
    "Properties": {
     "ServiceToken": {
@@ -375,17 +375,17 @@
      }
     ],
     "SourceObjectKeys": [
-     "b82352f06e45f1aa23227ae19418e6df31163030341be8b1bfb4179a767b68d9.zip"
+     "bb93ae65bcab0de11deb5ac0e83c6777051333a792f8f087534850ec7ec49b7b.zip"
     ],
     "DestinationBucketName": {
-     "Ref": "uploadedFile4AE25CB8"
+     "Ref": "newUploadedFile2AB9B21E"
     },
     "Prune": true
    },
    "UpdateReplacePolicy": "Delete",
    "DeletionPolicy": "Delete",
    "Metadata": {
-    "aws:cdk:path": "InfrastructureStack/deployWebsite/CustomResource/Default"
+    "aws:cdk:path": "InfrastructureStack/DeployWebsite/CustomResource/Default"
    }
   },
   "CustomCDKBucketDeployment8693BB64968944B69AAFB0CC9EB8756CServiceRole89A01265": {
@@ -485,7 +485,7 @@
        "Resource": [
         {
          "Fn::GetAtt": [
-          "uploadedFile4AE25CB8",
+          "newUploadedFile2AB9B21E",
           "Arn"
          ]
         },
@@ -495,7 +495,7 @@
           [
            {
             "Fn::GetAtt": [
-             "uploadedFile4AE25CB8",
+             "newUploadedFile2AB9B21E",
              "Arn"
             ]
            },
@@ -536,7 +536,7 @@
     "Handler": "index.handler",
     "Layers": [
      {
-      "Ref": "deployWebsiteAwsCliLayerE09F1D49"
+      "Ref": "DeployWebsiteAwsCliLayer17DBC421"
      }
     ],
     "Role": {
