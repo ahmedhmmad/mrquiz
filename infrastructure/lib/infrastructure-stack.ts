@@ -41,6 +41,33 @@ export class InfrastructureStack extends cdk.Stack {
       },
     });
 
+    //lambda function to list all the files in the bucket
+    const listFilesLambda = new lambda.Function(this, 'listFilesFunction', {
+      runtime: lambda.Runtime.NODEJS_20_X,
+      handler: 'listFiles.handler',
+      code: lambda.Code.fromAsset('lambda'),
+      role: textExtractRole,
+      environment: {
+        BUCKET_NAME: bucket.bucketName,
+      },
+    });
+
+    //lambda function to get the text from the file
+    const textRactLambda = new lambda.Function(this, 'textRactFunction', {
+      runtime: lambda.Runtime.NODEJS_20_X,
+      handler: 'textractFile.handler',
+      code: lambda.Code.fromAsset('lambda'),
+      role: textExtractRole,
+      environment: {
+        BUCKET_NAME: bucket.bucketName,
+      },
+    });
+
+    // Grant S3 read permissions to Lambda
+    bucket.grantReadWrite(extractTextLambda);
+    bucket.grantRead(listFilesLambda);
+    bucket.grantRead(textRactLambda);
+
     // API Gateway to expose the Lambda function
     const api = new apigateway.RestApi(this, 'extractTextApi', {
       restApiName: 'Quiz Generator Service',
@@ -56,8 +83,15 @@ export class InfrastructureStack extends cdk.Stack {
     const uploadIntegration = new apigateway.LambdaIntegration(extractTextLambda);
     api.root.addMethod('POST', uploadIntegration);
 
-    // Grant S3 read permissions to Lambda
-    bucket.grantReadWrite(extractTextLambda);
+    
+    const listFilesIntegration = new apigateway.LambdaIntegration(listFilesLambda);
+    const listFilesResource = api.root.addResource('listFiles');
+    listFilesResource.addMethod('GET', listFilesIntegration);
+
+    const textRactIntegration = new apigateway.LambdaIntegration(textRactLambda);
+    const textRactResource = api.root.addResource('textRact');
+    textRactResource.addMethod('POST', textRactIntegration);
+
 
     // Deploy React app to S3 bucket
     new s3deploy.BucketDeployment(this, 'DeployWebsite', {
