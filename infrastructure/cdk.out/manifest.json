@@ -18,7 +18,7 @@
         "validateOnSynth": false,
         "assumeRoleArn": "arn:${AWS::Partition}:iam::${AWS::AccountId}:role/cdk-hnb659fds-deploy-role-${AWS::AccountId}-${AWS::Region}",
         "cloudFormationExecutionRoleArn": "arn:${AWS::Partition}:iam::${AWS::AccountId}:role/cdk-hnb659fds-cfn-exec-role-${AWS::AccountId}-${AWS::Region}",
-        "stackTemplateAssetObjectUrl": "s3://cdk-hnb659fds-assets-${AWS::AccountId}-${AWS::Region}/9ddd97bf36afece4a70031edce1b13fe074f01be6b3ec6f957615dd333c27a66.json",
+        "stackTemplateAssetObjectUrl": "s3://cdk-hnb659fds-assets-${AWS::AccountId}-${AWS::Region}/61dfa72e69ac6ae9030387c429ce752bd29a3cbc776f34f90b59a2140971f377.json",
         "requiresBootstrapStackVersion": 6,
         "bootstrapStackVersionSsmParameter": "/cdk-bootstrap/hnb659fds/version",
         "additionalDependencies": [
@@ -58,6 +58,18 @@
             "data": "extractTextFunction0DBDC995"
           }
         ],
+        "/InfrastructureStack/listFilesFunction/Resource": [
+          {
+            "type": "aws:cdk:logicalId",
+            "data": "listFilesFunctionF3DCEA9F"
+          }
+        ],
+        "/InfrastructureStack/textRactFunction/Resource": [
+          {
+            "type": "aws:cdk:logicalId",
+            "data": "textRactFunctionBDF5EBE1"
+          }
+        ],
         "/InfrastructureStack/extractTextApi/Resource": [
           {
             "type": "aws:cdk:logicalId",
@@ -67,7 +79,7 @@
         "/InfrastructureStack/extractTextApi/Deployment/Resource": [
           {
             "type": "aws:cdk:logicalId",
-            "data": "extractTextApiDeploymentA100575476ea3b554e2ad69025c26904f2f59680"
+            "data": "extractTextApiDeploymentA1005754591479fa1c5a03007aa518a2fc053deb"
           }
         ],
         "/InfrastructureStack/extractTextApi/DeploymentStage.prod/Resource": [
@@ -104,6 +116,66 @@
           {
             "type": "aws:cdk:logicalId",
             "data": "extractTextApiPOSTE872A561"
+          }
+        ],
+        "/InfrastructureStack/extractTextApi/Default/listFiles/Resource": [
+          {
+            "type": "aws:cdk:logicalId",
+            "data": "extractTextApilistFiles86BEB786"
+          }
+        ],
+        "/InfrastructureStack/extractTextApi/Default/listFiles/OPTIONS/Resource": [
+          {
+            "type": "aws:cdk:logicalId",
+            "data": "extractTextApilistFilesOPTIONSBD0B6ED0"
+          }
+        ],
+        "/InfrastructureStack/extractTextApi/Default/listFiles/GET/ApiPermission.InfrastructureStackextractTextApiDA4FB8E6.GET..listFiles": [
+          {
+            "type": "aws:cdk:logicalId",
+            "data": "extractTextApilistFilesGETApiPermissionInfrastructureStackextractTextApiDA4FB8E6GETlistFilesEFE5EDDD"
+          }
+        ],
+        "/InfrastructureStack/extractTextApi/Default/listFiles/GET/ApiPermission.Test.InfrastructureStackextractTextApiDA4FB8E6.GET..listFiles": [
+          {
+            "type": "aws:cdk:logicalId",
+            "data": "extractTextApilistFilesGETApiPermissionTestInfrastructureStackextractTextApiDA4FB8E6GETlistFilesAFD74FAF"
+          }
+        ],
+        "/InfrastructureStack/extractTextApi/Default/listFiles/GET/Resource": [
+          {
+            "type": "aws:cdk:logicalId",
+            "data": "extractTextApilistFilesGET12B19D24"
+          }
+        ],
+        "/InfrastructureStack/extractTextApi/Default/textRact/Resource": [
+          {
+            "type": "aws:cdk:logicalId",
+            "data": "extractTextApitextRactF70F3D9D"
+          }
+        ],
+        "/InfrastructureStack/extractTextApi/Default/textRact/OPTIONS/Resource": [
+          {
+            "type": "aws:cdk:logicalId",
+            "data": "extractTextApitextRactOPTIONS93B08D7D"
+          }
+        ],
+        "/InfrastructureStack/extractTextApi/Default/textRact/POST/ApiPermission.InfrastructureStackextractTextApiDA4FB8E6.POST..textRact": [
+          {
+            "type": "aws:cdk:logicalId",
+            "data": "extractTextApitextRactPOSTApiPermissionInfrastructureStackextractTextApiDA4FB8E6POSTtextRactD44635B8"
+          }
+        ],
+        "/InfrastructureStack/extractTextApi/Default/textRact/POST/ApiPermission.Test.InfrastructureStackextractTextApiDA4FB8E6.POST..textRact": [
+          {
+            "type": "aws:cdk:logicalId",
+            "data": "extractTextApitextRactPOSTApiPermissionTestInfrastructureStackextractTextApiDA4FB8E6POSTtextRactC383874A"
+          }
+        ],
+        "/InfrastructureStack/extractTextApi/Default/textRact/POST/Resource": [
+          {
+            "type": "aws:cdk:logicalId",
+            "data": "extractTextApitextRactPOST164BEECB"
           }
         ],
         "/InfrastructureStack/DeployWebsite/AwsCliLayer/Resource": [

@@ -13,7 +13,7 @@ exports.handler = async (event) => {
             Bucket: process.env.BUCKET_NAME,
             Key: uniqueFileName,
             Body: Buffer.from(fileContent, 'base64'),
-            ContentType: 'application/octet-stream', // Set correct content type
+            ContentType: 'application/octet-stream', 
         };
 
         const data = await s3.upload(uploadParams).promise();

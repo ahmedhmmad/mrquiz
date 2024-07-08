@@ -144,7 +144,7 @@
      "S3Bucket": {
       "Fn::Sub": "cdk-hnb659fds-assets-${AWS::AccountId}-${AWS::Region}"
      },
-     "S3Key": "3190eaf35acd99e8b12fbf4055489de3463613bb98ca50f8375b065e4339b37d.zip"
+     "S3Key": "8a0e26935db4efaab48349b8717f9ed9fc5d83b7653b6cc8f381a34e2fe66f53.zip"
     },
     "Environment": {
      "Variables": {
@@ -168,7 +168,79 @@
    ],
    "Metadata": {
     "aws:cdk:path": "InfrastructureStack/extractTextFunction/Resource",
-    "aws:asset:path": "asset.3190eaf35acd99e8b12fbf4055489de3463613bb98ca50f8375b065e4339b37d",
+    "aws:asset:path": "asset.8a0e26935db4efaab48349b8717f9ed9fc5d83b7653b6cc8f381a34e2fe66f53",
+    "aws:asset:is-bundled": false,
+    "aws:asset:property": "Code"
+   }
+  },
+  "listFilesFunctionF3DCEA9F": {
+   "Type": "AWS::Lambda::Function",
+   "Properties": {
+    "Code": {
+     "S3Bucket": {
+      "Fn::Sub": "cdk-hnb659fds-assets-${AWS::AccountId}-${AWS::Region}"
+     },
+     "S3Key": "8a0e26935db4efaab48349b8717f9ed9fc5d83b7653b6cc8f381a34e2fe66f53.zip"
+    },
+    "Environment": {
+     "Variables": {
+      "BUCKET_NAME": {
+       "Ref": "newUploadedFile2AB9B21E"
+      }
+     }
+    },
+    "Handler": "listFiles.handler",
+    "Role": {
+     "Fn::GetAtt": [
+      "TextractRoleA0CE91FA",
+      "Arn"
+     ]
+    },
+    "Runtime": "nodejs20.x"
+   },
+   "DependsOn": [
+    "TextractRoleDefaultPolicyD4FA1BCA",
+    "TextractRoleA0CE91FA"
+   ],
+   "Metadata": {
+    "aws:cdk:path": "InfrastructureStack/listFilesFunction/Resource",
+    "aws:asset:path": "asset.8a0e26935db4efaab48349b8717f9ed9fc5d83b7653b6cc8f381a34e2fe66f53",
+    "aws:asset:is-bundled": false,
+    "aws:asset:property": "Code"
+   }
+  },
+  "textRactFunctionBDF5EBE1": {
+   "Type": "AWS::Lambda::Function",
+   "Properties": {
+    "Code": {
+     "S3Bucket": {
+      "Fn::Sub": "cdk-hnb659fds-assets-${AWS::AccountId}-${AWS::Region}"
+     },
+     "S3Key": "8a0e26935db4efaab48349b8717f9ed9fc5d83b7653b6cc8f381a34e2fe66f53.zip"
+    },
+    "Environment": {
+     "Variables": {
+      "BUCKET_NAME": {
+       "Ref": "newUploadedFile2AB9B21E"
+      }
+     }
+    },
+    "Handler": "textractFile.handler",
+    "Role": {
+     "Fn::GetAtt": [
+      "TextractRoleA0CE91FA",
+      "Arn"
+     ]
+    },
+    "Runtime": "nodejs20.x"
+   },
+   "DependsOn": [
+    "TextractRoleDefaultPolicyD4FA1BCA",
+    "TextractRoleA0CE91FA"
+   ],
+   "Metadata": {
+    "aws:cdk:path": "InfrastructureStack/textRactFunction/Resource",
+    "aws:asset:path": "asset.8a0e26935db4efaab48349b8717f9ed9fc5d83b7653b6cc8f381a34e2fe66f53",
     "aws:asset:is-bundled": false,
     "aws:asset:property": "Code"
    }
@@ -182,7 +254,7 @@
     "aws:cdk:path": "InfrastructureStack/extractTextApi/Resource"
    }
   },
-  "extractTextApiDeploymentA100575476ea3b554e2ad69025c26904f2f59680": {
+  "extractTextApiDeploymentA1005754591479fa1c5a03007aa518a2fc053deb": {
    "Type": "AWS::ApiGateway::Deployment",
    "Properties": {
     "Description": "Automatically created by the RestApi construct",
@@ -191,8 +263,14 @@
     }
    },
    "DependsOn": [
+    "extractTextApilistFilesGET12B19D24",
+    "extractTextApilistFilesOPTIONSBD0B6ED0",
+    "extractTextApilistFiles86BEB786",
     "extractTextApiOPTIONSFCF78814",
-    "extractTextApiPOSTE872A561"
+    "extractTextApiPOSTE872A561",
+    "extractTextApitextRactOPTIONS93B08D7D",
+    "extractTextApitextRactPOST164BEECB",
+    "extractTextApitextRactF70F3D9D"
    ],
    "Metadata": {
     "aws:cdk:path": "InfrastructureStack/extractTextApi/Deployment/Resource"
@@ -202,7 +280,7 @@
    "Type": "AWS::ApiGateway::Stage",
    "Properties": {
     "DeploymentId": {
-     "Ref": "extractTextApiDeploymentA100575476ea3b554e2ad69025c26904f2f59680"
+     "Ref": "extractTextApiDeploymentA1005754591479fa1c5a03007aa518a2fc053deb"
     },
     "RestApiId": {
      "Ref": "extractTextApi690A7E22"
@@ -389,6 +467,382 @@
     "aws:cdk:path": "InfrastructureStack/extractTextApi/Default/POST/Resource"
    }
   },
+  "extractTextApilistFiles86BEB786": {
+   "Type": "AWS::ApiGateway::Resource",
+   "Properties": {
+    "ParentId": {
+     "Fn::GetAtt": [
+      "extractTextApi690A7E22",
+      "RootResourceId"
+     ]
+    },
+    "PathPart": "listFiles",
+    "RestApiId": {
+     "Ref": "extractTextApi690A7E22"
+    }
+   },
+   "Metadata": {
+    "aws:cdk:path": "InfrastructureStack/extractTextApi/Default/listFiles/Resource"
+   }
+  },
+  "extractTextApilistFilesOPTIONSBD0B6ED0": {
+   "Type": "AWS::ApiGateway::Method",
+   "Properties": {
+    "ApiKeyRequired": false,
+    "AuthorizationType": "NONE",
+    "HttpMethod": "OPTIONS",
+    "Integration": {
+     "IntegrationResponses": [
+      {
+       "ResponseParameters": {
+        "method.response.header.Access-Control-Allow-Headers": "'Content-Type,X-Amz-Date,Authorization,X-Api-Key,X-Amz-Security-Token'",
+        "method.response.header.Access-Control-Allow-Origin": "'*'",
+        "method.response.header.Access-Control-Allow-Methods": "'OPTIONS,GET,PUT,POST,DELETE,PATCH,HEAD'"
+       },
+       "StatusCode": "204"
+      }
+     ],
+     "RequestTemplates": {
+      "application/json": "{ statusCode: 200 }"
+     },
+     "Type": "MOCK"
+    },
+    "MethodResponses": [
+     {
+      "ResponseParameters": {
+       "method.response.header.Access-Control-Allow-Headers": true,
+       "method.response.header.Access-Control-Allow-Origin": true,
+       "method.response.header.Access-Control-Allow-Methods": true
+      },
+      "StatusCode": "204"
+     }
+    ],
+    "ResourceId": {
+     "Ref": "extractTextApilistFiles86BEB786"
+    },
+    "RestApiId": {
+     "Ref": "extractTextApi690A7E22"
+    }
+   },
+   "Metadata": {
+    "aws:cdk:path": "InfrastructureStack/extractTextApi/Default/listFiles/OPTIONS/Resource"
+   }
+  },
+  "extractTextApilistFilesGETApiPermissionInfrastructureStackextractTextApiDA4FB8E6GETlistFilesEFE5EDDD": {
+   "Type": "AWS::Lambda::Permission",
+   "Properties": {
+    "Action": "lambda:InvokeFunction",
+    "FunctionName": {
+     "Fn::GetAtt": [
+      "listFilesFunctionF3DCEA9F",
+      "Arn"
+     ]
+    },
+    "Principal": "apigateway.amazonaws.com",
+    "SourceArn": {
+     "Fn::Join": [
+      "",
+      [
+       "arn:",
+       {
+        "Ref": "AWS::Partition"
+       },
+       ":execute-api:",
+       {
+        "Ref": "AWS::Region"
+       },
+       ":",
+       {
+        "Ref": "AWS::AccountId"
+       },
+       ":",
+       {
+        "Ref": "extractTextApi690A7E22"
+       },
+       "/",
+       {
+        "Ref": "extractTextApiDeploymentStageprod1EA8B155"
+       },
+       "/GET/listFiles"
+      ]
+     ]
+    }
+   },
+   "Metadata": {
+    "aws:cdk:path": "InfrastructureStack/extractTextApi/Default/listFiles/GET/ApiPermission.InfrastructureStackextractTextApiDA4FB8E6.GET..listFiles"
+   }
+  },
+  "extractTextApilistFilesGETApiPermissionTestInfrastructureStackextractTextApiDA4FB8E6GETlistFilesAFD74FAF": {
+   "Type": "AWS::Lambda::Permission",
+   "Properties": {
+    "Action": "lambda:InvokeFunction",
+    "FunctionName": {
+     "Fn::GetAtt": [
+      "listFilesFunctionF3DCEA9F",
+      "Arn"
+     ]
+    },
+    "Principal": "apigateway.amazonaws.com",
+    "SourceArn": {
+     "Fn::Join": [
+      "",
+      [
+       "arn:",
+       {
+        "Ref": "AWS::Partition"
+       },
+       ":execute-api:",
+       {
+        "Ref": "AWS::Region"
+       },
+       ":",
+       {
+        "Ref": "AWS::AccountId"
+       },
+       ":",
+       {
+        "Ref": "extractTextApi690A7E22"
+       },
+       "/test-invoke-stage/GET/listFiles"
+      ]
+     ]
+    }
+   },
+   "Metadata": {
+    "aws:cdk:path": "InfrastructureStack/extractTextApi/Default/listFiles/GET/ApiPermission.Test.InfrastructureStackextractTextApiDA4FB8E6.GET..listFiles"
+   }
+  },
+  "extractTextApilistFilesGET12B19D24": {
+   "Type": "AWS::ApiGateway::Method",
+   "Properties": {
+    "AuthorizationType": "NONE",
+    "HttpMethod": "GET",
+    "Integration": {
+     "IntegrationHttpMethod": "POST",
+     "Type": "AWS_PROXY",
+     "Uri": {
+      "Fn::Join": [
+       "",
+       [
+        "arn:",
+        {
+         "Ref": "AWS::Partition"
+        },
+        ":apigateway:",
+        {
+         "Ref": "AWS::Region"
+        },
+        ":lambda:path/2015-03-31/functions/",
+        {
+         "Fn::GetAtt": [
+          "listFilesFunctionF3DCEA9F",
+          "Arn"
+         ]
+        },
+        "/invocations"
+       ]
+      ]
+     }
+    },
+    "ResourceId": {
+     "Ref": "extractTextApilistFiles86BEB786"
+    },
+    "RestApiId": {
+     "Ref": "extractTextApi690A7E22"
+    }
+   },
+   "Metadata": {
+    "aws:cdk:path": "InfrastructureStack/extractTextApi/Default/listFiles/GET/Resource"
+   }
+  },
+  "extractTextApitextRactF70F3D9D": {
+   "Type": "AWS::ApiGateway::Resource",
+   "Properties": {
+    "ParentId": {
+     "Fn::GetAtt": [
+      "extractTextApi690A7E22",
+      "RootResourceId"
+     ]
+    },
+    "PathPart": "textRact",
+    "RestApiId": {
+     "Ref": "extractTextApi690A7E22"
+    }
+   },
+   "Metadata": {
+    "aws:cdk:path": "InfrastructureStack/extractTextApi/Default/textRact/Resource"
+   }
+  },
+  "extractTextApitextRactOPTIONS93B08D7D": {
+   "Type": "AWS::ApiGateway::Method",
+   "Properties": {
+    "ApiKeyRequired": false,
+    "AuthorizationType": "NONE",
+    "HttpMethod": "OPTIONS",
+    "Integration": {
+     "IntegrationResponses": [
+      {
+       "ResponseParameters": {
+        "method.response.header.Access-Control-Allow-Headers": "'Content-Type,X-Amz-Date,Authorization,X-Api-Key,X-Amz-Security-Token'",
+        "method.response.header.Access-Control-Allow-Origin": "'*'",
+        "method.response.header.Access-Control-Allow-Methods": "'OPTIONS,GET,PUT,POST,DELETE,PATCH,HEAD'"
+       },
+       "StatusCode": "204"
+      }
+     ],
+     "RequestTemplates": {
+      "application/json": "{ statusCode: 200 }"
+     },
+     "Type": "MOCK"
+    },
+    "MethodResponses": [
+     {
+      "ResponseParameters": {
+       "method.response.header.Access-Control-Allow-Headers": true,
+       "method.response.header.Access-Control-Allow-Origin": true,
+       "method.response.header.Access-Control-Allow-Methods": true
+      },
+      "StatusCode": "204"
+     }
+    ],
+    "ResourceId": {
+     "Ref": "extractTextApitextRactF70F3D9D"
+    },
+    "RestApiId": {
+     "Ref": "extractTextApi690A7E22"
+    }
+   },
+   "Metadata": {
+    "aws:cdk:path": "InfrastructureStack/extractTextApi/Default/textRact/OPTIONS/Resource"
+   }
+  },
+  "extractTextApitextRactPOSTApiPermissionInfrastructureStackextractTextApiDA4FB8E6POSTtextRactD44635B8": {
+   "Type": "AWS::Lambda::Permission",
+   "Properties": {
+    "Action": "lambda:InvokeFunction",
+    "FunctionName": {
+     "Fn::GetAtt": [
+      "textRactFunctionBDF5EBE1",
+      "Arn"
+     ]
+    },
+    "Principal": "apigateway.amazonaws.com",
+    "SourceArn": {
+     "Fn::Join": [
+      "",
+      [
+       "arn:",
+       {
+        "Ref": "AWS::Partition"
+       },
+       ":execute-api:",
+       {
+        "Ref": "AWS::Region"
+       },
+       ":",
+       {
+        "Ref": "AWS::AccountId"
+       },
+       ":",
+       {
+        "Ref": "extractTextApi690A7E22"
+       },
+       "/",
+       {
+        "Ref": "extractTextApiDeploymentStageprod1EA8B155"
+       },
+       "/POST/textRact"
+      ]
+     ]
+    }
+   },
+   "Metadata": {
+    "aws:cdk:path": "InfrastructureStack/extractTextApi/Default/textRact/POST/ApiPermission.InfrastructureStackextractTextApiDA4FB8E6.POST..textRact"
+   }
+  },
+  "extractTextApitextRactPOSTApiPermissionTestInfrastructureStackextractTextApiDA4FB8E6POSTtextRactC383874A": {
+   "Type": "AWS::Lambda::Permission",
+   "Properties": {
+    "Action": "lambda:InvokeFunction",
+    "FunctionName": {
+     "Fn::GetAtt": [
+      "textRactFunctionBDF5EBE1",
+      "Arn"
+     ]
+    },
+    "Principal": "apigateway.amazonaws.com",
+    "SourceArn": {
+     "Fn::Join": [
+      "",
+      [
+       "arn:",
+       {
+        "Ref": "AWS::Partition"
+       },
+       ":execute-api:",
+       {
+        "Ref": "AWS::Region"
+       },
+       ":",
+       {
+        "Ref": "AWS::AccountId"
+       },
+       ":",
+       {
+        "Ref": "extractTextApi690A7E22"
+       },
+       "/test-invoke-stage/POST/textRact"
+      ]
+     ]
+    }
+   },
+   "Metadata": {
+    "aws:cdk:path": "InfrastructureStack/extractTextApi/Default/textRact/POST/ApiPermission.Test.InfrastructureStackextractTextApiDA4FB8E6.POST..textRact"
+   }
+  },
+  "extractTextApitextRactPOST164BEECB": {
+   "Type": "AWS::ApiGateway::Method",
+   "Properties": {
+    "AuthorizationType": "NONE",
+    "HttpMethod": "POST",
+    "Integration": {
+     "IntegrationHttpMethod": "POST",
+     "Type": "AWS_PROXY",
+     "Uri": {
+      "Fn::Join": [
+       "",
+       [
+        "arn:",
+        {
+         "Ref": "AWS::Partition"
+        },
+        ":apigateway:",
+        {
+         "Ref": "AWS::Region"
+        },
+        ":lambda:path/2015-03-31/functions/",
+        {
+         "Fn::GetAtt": [
+          "textRactFunctionBDF5EBE1",
+          "Arn"
+         ]
+        },
+        "/invocations"
+       ]
+      ]
+     }
+    },
+    "ResourceId": {
+     "Ref": "extractTextApitextRactF70F3D9D"
+    },
+    "RestApiId": {
+     "Ref": "extractTextApi690A7E22"
+    }
+   },
+   "Metadata": {
+    "aws:cdk:path": "InfrastructureStack/extractTextApi/Default/textRact/POST/Resource"
+   }
+  },
   "DeployWebsiteAwsCliLayer17DBC421": {
    "Type": "AWS::Lambda::LayerVersion",
    "Properties": {
@@ -422,7 +876,7 @@
      }
     ],
     "SourceObjectKeys": [
-     "acd85564614d06994835131f2ad4a0abf4fac635f550cdbca572445e9bc94e73.zip"
+     "3b01231ecc146ca55b2a5f7a21cf9feff8497694b349bcf3c30ba0958852a48f.zip"
     ],
     "DestinationBucketName": {
      "Ref": "newUploadedFile2AB9B21E"
@@ -609,7 +1063,7 @@
   "CDKMetadata": {
    "Type": "AWS::CDK::Metadata",
    "Properties": {
-    "Analytics": "v2:deflate64:H4sIAAAAAAAA/01Q0U7DMAz8lr1nATYknrcinkBMncRr5aWmeEuTqnaoqqj/jtJUZU9353Osu+z00/OLftrAwFtT37aWLjqeBcxNwcBV5L2Ox2BuKKr4dgvLcATGSRG0OpbeYvJnPHlLZkwys0lZaC816PgWnBHyLnn3/IR9S8yLeocR+y/sZ30m11gUv+5PivdVBGYU1ocEqsbO+rFFJzone10Hk4KOGhAcYNSxRJZDR3PShf6vpumdOgs0c6dMSmQfeoOptPpA+fF1MjObptVXc6T0hlyTNj6DdEGWL6hs6lbBwMaSPgxcWJrrqiKw+Ha9khOuvPCuptze+Rr1lR9+dzu914+bKxNt++CEWtRlxj9XULHN1QEAAA=="
+    "Analytics": "v2:deflate64:H4sIAAAAAAAA/22QQU/DMAyFf8vumWEdEuetiBOIqZO4Vl5qirc0qeqEqor631Hasu3A6X3Pz7JsZ7B5eobNCntZ6+qyNnyCePSoLwp7KaNsIe6DvpBX+ZddaJY9Co2KsYFYOEMpn/TgDOsh2ZlGZbA5VQjxNVjt2dmU3fOBuoZFFveGA3Wf1E3+yLY25N21f1SyLSOKkBfYJVEVtcYNDVkP82Yv18KosOUaPfU4QCxI/K7ladMFb62peueOHuvpphkKEhc6Telo9U7+21UpXOgvXSZPPI638rRnGsS2Tj0fwbfBL38pTTq4xF60Ydj1khuefqDyIN41/w1PnDtb8fwS6yqCszz8ZBls4XF1FuZ1F6znhqCY9Rcqamy86gEAAA=="
    },
    "Metadata": {
     "aws:cdk:path": "InfrastructureStack/CDKMetadata/Default"
