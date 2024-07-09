@@ -1,11 +1,10 @@
-import logo from './logo.svg';
-import FileInput from './components/FileInput';
+import Dashboard from './components/Dashboard';
 import './App.css';
 
 function App() {
   return (
     <div className="App">
-      <FileInput />
+      <Dashboard />
     </div>
   );
 }
