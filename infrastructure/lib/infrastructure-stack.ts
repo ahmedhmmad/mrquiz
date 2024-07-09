@@ -33,9 +33,8 @@ export class InfrastructureStack extends cdk.Stack {
     // Lambda function to extract text from uploaded files
     const uploadFileLambda = new Function(this, 'uploadFileFunction', {
       runtime: Runtime.NODEJS_LATEST,
-      handler: 'uploadFile.handler',
+      handler: 'handlers/uploadFile.handler', 
       code: Code.fromAsset('lambda'),
-      role: textExtractRole,
       environment: {
         BUCKET_NAME: bucket.bucketName,
       },
@@ -44,18 +43,17 @@ export class InfrastructureStack extends cdk.Stack {
     //lambda function to list all the files in the bucket
     const listFilesLambda = new Function(this, 'listFilesFunction', {
       runtime: Runtime.NODEJS_LATEST,
-      handler: 'listFiles.handler',
+      handler: 'handlers/listFiles.handler',
       code: Code.fromAsset('lambda'),
-      role: textExtractRole,
       environment: {
         BUCKET_NAME: bucket.bucketName,
       },
     });
 
     //lambda function to get the text from the file
-    const textRactLambda = new Function(this, 'uploadFileFunction', {
+    const textRactLambda = new Function(this, 'TextractFunction', {
       runtime: Runtime.NODEJS_LATEST,
-      handler: 'textractFile.handler',
+      handler: 'handlers/textractFile.handler',
       code: Code.fromAsset('lambda'),
       role: textExtractRole,
       environment: {
@@ -98,5 +96,6 @@ export class InfrastructureStack extends cdk.Stack {
       sources: [s3deploy.Source.asset('../web/build')],
       destinationBucket: bucket,
     });
+    
   }
 }

@@ -133,16 +133,9 @@
                           "Statement": [
                             {
                               "Action": [
-                                "s3:Abort*",
-                                "s3:DeleteObject*",
                                 "s3:GetBucket*",
                                 "s3:GetObject*",
-                                "s3:List*",
-                                "s3:PutObject",
-                                "s3:PutObjectLegalHold",
-                                "s3:PutObjectRetention",
-                                "s3:PutObjectTagging",
-                                "s3:PutObjectVersionTagging"
+                                "s3:List*"
                               ],
                               "Effect": "Allow",
                               "Resource": [
@@ -196,17 +189,145 @@
               "version": "2.147.1"
             }
           },
-          "extractTextFunction": {
-            "id": "extractTextFunction",
-            "path": "InfrastructureStack/extractTextFunction",
+          "uploadFileFunction": {
+            "id": "uploadFileFunction",
+            "path": "InfrastructureStack/uploadFileFunction",
             "children": {
+              "ServiceRole": {
+                "id": "ServiceRole",
+                "path": "InfrastructureStack/uploadFileFunction/ServiceRole",
+                "children": {
+                  "ImportServiceRole": {
+                    "id": "ImportServiceRole",
+                    "path": "InfrastructureStack/uploadFileFunction/ServiceRole/ImportServiceRole",
+                    "constructInfo": {
+                      "fqn": "aws-cdk-lib.Resource",
+                      "version": "2.147.1"
+                    }
+                  },
+                  "Resource": {
+                    "id": "Resource",
+                    "path": "InfrastructureStack/uploadFileFunction/ServiceRole/Resource",
+                    "attributes": {
+                      "aws:cdk:cloudformation:type": "AWS::IAM::Role",
+                      "aws:cdk:cloudformation:props": {
+                        "assumeRolePolicyDocument": {
+                          "Statement": [
+                            {
+                              "Action": "sts:AssumeRole",
+                              "Effect": "Allow",
+                              "Principal": {
+                                "Service": "lambda.amazonaws.com"
+                              }
+                            }
+                          ],
+                          "Version": "2012-10-17"
+                        },
+                        "managedPolicyArns": [
+                          {
+                            "Fn::Join": [
+                              "",
+                              [
+                                "arn:",
+                                {
+                                  "Ref": "AWS::Partition"
+                                },
+                                ":iam::aws:policy/service-role/AWSLambdaBasicExecutionRole"
+                              ]
+                            ]
+                          }
+                        ]
+                      }
+                    },
+                    "constructInfo": {
+                      "fqn": "aws-cdk-lib.aws_iam.CfnRole",
+                      "version": "2.147.1"
+                    }
+                  },
+                  "DefaultPolicy": {
+                    "id": "DefaultPolicy",
+                    "path": "InfrastructureStack/uploadFileFunction/ServiceRole/DefaultPolicy",
+                    "children": {
+                      "Resource": {
+                        "id": "Resource",
+                        "path": "InfrastructureStack/uploadFileFunction/ServiceRole/DefaultPolicy/Resource",
+                        "attributes": {
+                          "aws:cdk:cloudformation:type": "AWS::IAM::Policy",
+                          "aws:cdk:cloudformation:props": {
+                            "policyDocument": {
+                              "Statement": [
+                                {
+                                  "Action": [
+                                    "s3:Abort*",
+                                    "s3:DeleteObject*",
+                                    "s3:GetBucket*",
+                                    "s3:GetObject*",
+                                    "s3:List*",
+                                    "s3:PutObject",
+                                    "s3:PutObjectLegalHold",
+                                    "s3:PutObjectRetention",
+                                    "s3:PutObjectTagging",
+                                    "s3:PutObjectVersionTagging"
+                                  ],
+                                  "Effect": "Allow",
+                                  "Resource": [
+                                    {
+                                      "Fn::GetAtt": [
+                                        "newUploadedFile2AB9B21E",
+                                        "Arn"
+                                      ]
+                                    },
+                                    {
+                                      "Fn::Join": [
+                                        "",
+                                        [
+                                          {
+                                            "Fn::GetAtt": [
+                                              "newUploadedFile2AB9B21E",
+                                              "Arn"
+                                            ]
+                                          },
+                                          "/*"
+                                        ]
+                                      ]
+                                    }
+                                  ]
+                                }
+                              ],
+                              "Version": "2012-10-17"
+                            },
+                            "policyName": "uploadFileFunctionServiceRoleDefaultPolicy5D61DCA6",
+                            "roles": [
+                              {
+                                "Ref": "uploadFileFunctionServiceRole8162019C"
+                              }
+                            ]
+                          }
+                        },
+                        "constructInfo": {
+                          "fqn": "aws-cdk-lib.aws_iam.CfnPolicy",
+                          "version": "2.147.1"
+                        }
+                      }
+                    },
+                    "constructInfo": {
+                      "fqn": "aws-cdk-lib.aws_iam.Policy",
+                      "version": "2.147.1"
+                    }
+                  }
+                },
+                "constructInfo": {
+                  "fqn": "aws-cdk-lib.aws_iam.Role",
+                  "version": "2.147.1"
+                }
+              },
               "Code": {
                 "id": "Code",
-                "path": "InfrastructureStack/extractTextFunction/Code",
+                "path": "InfrastructureStack/uploadFileFunction/Code",
                 "children": {
                   "Stage": {
                     "id": "Stage",
-                    "path": "InfrastructureStack/extractTextFunction/Code/Stage",
+                    "path": "InfrastructureStack/uploadFileFunction/Code/Stage",
                     "constructInfo": {
                       "fqn": "aws-cdk-lib.AssetStaging",
                       "version": "2.147.1"
@@ -214,7 +335,7 @@
                   },
                   "AssetBucket": {
                     "id": "AssetBucket",
-                    "path": "InfrastructureStack/extractTextFunction/Code/AssetBucket",
+                    "path": "InfrastructureStack/uploadFileFunction/Code/AssetBucket",
                     "constructInfo": {
                       "fqn": "aws-cdk-lib.aws_s3.BucketBase",
                       "version": "2.147.1"
@@ -228,7 +349,7 @@
               },
               "Resource": {
                 "id": "Resource",
-                "path": "InfrastructureStack/extractTextFunction/Resource",
+                "path": "InfrastructureStack/uploadFileFunction/Resource",
                 "attributes": {
                   "aws:cdk:cloudformation:type": "AWS::Lambda::Function",
                   "aws:cdk:cloudformation:props": {
@@ -236,7 +357,7 @@
                       "s3Bucket": {
                         "Fn::Sub": "cdk-hnb659fds-assets-${AWS::AccountId}-${AWS::Region}"
                       },
-                      "s3Key": "8a0e26935db4efaab48349b8717f9ed9fc5d83b7653b6cc8f381a34e2fe66f53.zip"
+                      "s3Key": "b103f4ec71d4097d492126c002e91d22963563731ed0bc1f8d8ec5c6ee79f907.zip"
                     },
                     "environment": {
                       "variables": {
@@ -245,14 +366,14 @@
                         }
                       }
                     },
-                    "handler": "processFile.handler",
+                    "handler": "handlers/uploadFile.handler",
                     "role": {
                       "Fn::GetAtt": [
-                        "TextractRoleA0CE91FA",
+                        "uploadFileFunctionServiceRole8162019C",
                         "Arn"
                       ]
                     },
-                    "runtime": "nodejs20.x"
+                    "runtime": "nodejs18.x"
                   }
                 },
                 "constructInfo": {
@@ -270,6 +391,127 @@
             "id": "listFilesFunction",
             "path": "InfrastructureStack/listFilesFunction",
             "children": {
+              "ServiceRole": {
+                "id": "ServiceRole",
+                "path": "InfrastructureStack/listFilesFunction/ServiceRole",
+                "children": {
+                  "ImportServiceRole": {
+                    "id": "ImportServiceRole",
+                    "path": "InfrastructureStack/listFilesFunction/ServiceRole/ImportServiceRole",
+                    "constructInfo": {
+                      "fqn": "aws-cdk-lib.Resource",
+                      "version": "2.147.1"
+                    }
+                  },
+                  "Resource": {
+                    "id": "Resource",
+                    "path": "InfrastructureStack/listFilesFunction/ServiceRole/Resource",
+                    "attributes": {
+                      "aws:cdk:cloudformation:type": "AWS::IAM::Role",
+                      "aws:cdk:cloudformation:props": {
+                        "assumeRolePolicyDocument": {
+                          "Statement": [
+                            {
+                              "Action": "sts:AssumeRole",
+                              "Effect": "Allow",
+                              "Principal": {
+                                "Service": "lambda.amazonaws.com"
+                              }
+                            }
+                          ],
+                          "Version": "2012-10-17"
+                        },
+                        "managedPolicyArns": [
+                          {
+                            "Fn::Join": [
+                              "",
+                              [
+                                "arn:",
+                                {
+                                  "Ref": "AWS::Partition"
+                                },
+                                ":iam::aws:policy/service-role/AWSLambdaBasicExecutionRole"
+                              ]
+                            ]
+                          }
+                        ]
+                      }
+                    },
+                    "constructInfo": {
+                      "fqn": "aws-cdk-lib.aws_iam.CfnRole",
+                      "version": "2.147.1"
+                    }
+                  },
+                  "DefaultPolicy": {
+                    "id": "DefaultPolicy",
+                    "path": "InfrastructureStack/listFilesFunction/ServiceRole/DefaultPolicy",
+                    "children": {
+                      "Resource": {
+                        "id": "Resource",
+                        "path": "InfrastructureStack/listFilesFunction/ServiceRole/DefaultPolicy/Resource",
+                        "attributes": {
+                          "aws:cdk:cloudformation:type": "AWS::IAM::Policy",
+                          "aws:cdk:cloudformation:props": {
+                            "policyDocument": {
+                              "Statement": [
+                                {
+                                  "Action": [
+                                    "s3:GetBucket*",
+                                    "s3:GetObject*",
+                                    "s3:List*"
+                                  ],
+                                  "Effect": "Allow",
+                                  "Resource": [
+                                    {
+                                      "Fn::GetAtt": [
+                                        "newUploadedFile2AB9B21E",
+                                        "Arn"
+                                      ]
+                                    },
+                                    {
+                                      "Fn::Join": [
+                                        "",
+                                        [
+                                          {
+                                            "Fn::GetAtt": [
+                                              "newUploadedFile2AB9B21E",
+                                              "Arn"
+                                            ]
+                                          },
+                                          "/*"
+                                        ]
+                                      ]
+                                    }
+                                  ]
+                                }
+                              ],
+                              "Version": "2012-10-17"
+                            },
+                            "policyName": "listFilesFunctionServiceRoleDefaultPolicy4143CF85",
+                            "roles": [
+                              {
+                                "Ref": "listFilesFunctionServiceRole82F10D4F"
+                              }
+                            ]
+                          }
+                        },
+                        "constructInfo": {
+                          "fqn": "aws-cdk-lib.aws_iam.CfnPolicy",
+                          "version": "2.147.1"
+                        }
+                      }
+                    },
+                    "constructInfo": {
+                      "fqn": "aws-cdk-lib.aws_iam.Policy",
+                      "version": "2.147.1"
+                    }
+                  }
+                },
+                "constructInfo": {
+                  "fqn": "aws-cdk-lib.aws_iam.Role",
+                  "version": "2.147.1"
+                }
+              },
               "Code": {
                 "id": "Code",
                 "path": "InfrastructureStack/listFilesFunction/Code",
@@ -306,7 +548,7 @@
                       "s3Bucket": {
                         "Fn::Sub": "cdk-hnb659fds-assets-${AWS::AccountId}-${AWS::Region}"
                       },
-                      "s3Key": "8a0e26935db4efaab48349b8717f9ed9fc5d83b7653b6cc8f381a34e2fe66f53.zip"
+                      "s3Key": "b103f4ec71d4097d492126c002e91d22963563731ed0bc1f8d8ec5c6ee79f907.zip"
                     },
                     "environment": {
                       "variables": {
@@ -315,14 +557,14 @@
                         }
                       }
                     },
-                    "handler": "listFiles.handler",
+                    "handler": "handlers/listFiles.handler",
                     "role": {
                       "Fn::GetAtt": [
-                        "TextractRoleA0CE91FA",
+                        "listFilesFunctionServiceRole82F10D4F",
                         "Arn"
                       ]
                     },
-                    "runtime": "nodejs20.x"
+                    "runtime": "nodejs18.x"
                   }
                 },
                 "constructInfo": {
@@ -336,17 +578,17 @@
               "version": "2.147.1"
             }
           },
-          "textRactFunction": {
-            "id": "textRactFunction",
-            "path": "InfrastructureStack/textRactFunction",
+          "TextractFunction": {
+            "id": "TextractFunction",
+            "path": "InfrastructureStack/TextractFunction",
             "children": {
               "Code": {
                 "id": "Code",
-                "path": "InfrastructureStack/textRactFunction/Code",
+                "path": "InfrastructureStack/TextractFunction/Code",
                 "children": {
                   "Stage": {
                     "id": "Stage",
-                    "path": "InfrastructureStack/textRactFunction/Code/Stage",
+                    "path": "InfrastructureStack/TextractFunction/Code/Stage",
                     "constructInfo": {
                       "fqn": "aws-cdk-lib.AssetStaging",
                       "version": "2.147.1"
@@ -354,7 +596,7 @@
                   },
                   "AssetBucket": {
                     "id": "AssetBucket",
-                    "path": "InfrastructureStack/textRactFunction/Code/AssetBucket",
+                    "path": "InfrastructureStack/TextractFunction/Code/AssetBucket",
                     "constructInfo": {
                       "fqn": "aws-cdk-lib.aws_s3.BucketBase",
                       "version": "2.147.1"
@@ -368,7 +610,7 @@
               },
               "Resource": {
                 "id": "Resource",
-                "path": "InfrastructureStack/textRactFunction/Resource",
+                "path": "InfrastructureStack/TextractFunction/Resource",
                 "attributes": {
                   "aws:cdk:cloudformation:type": "AWS::Lambda::Function",
                   "aws:cdk:cloudformation:props": {
@@ -376,7 +618,7 @@
                       "s3Bucket": {
                         "Fn::Sub": "cdk-hnb659fds-assets-${AWS::AccountId}-${AWS::Region}"
                       },
-                      "s3Key": "8a0e26935db4efaab48349b8717f9ed9fc5d83b7653b6cc8f381a34e2fe66f53.zip"
+                      "s3Key": "b103f4ec71d4097d492126c002e91d22963563731ed0bc1f8d8ec5c6ee79f907.zip"
                     },
                     "environment": {
                       "variables": {
@@ -385,14 +627,14 @@
                         }
                       }
                     },
-                    "handler": "textractFile.handler",
+                    "handler": "handlers/textractFile.handler",
                     "role": {
                       "Fn::GetAtt": [
                         "TextractRoleA0CE91FA",
                         "Arn"
                       ]
                     },
-                    "runtime": "nodejs20.x"
+                    "runtime": "nodejs18.x"
                   }
                 },
                 "constructInfo": {
@@ -462,7 +704,7 @@
                       "aws:cdk:cloudformation:type": "AWS::ApiGateway::Stage",
                       "aws:cdk:cloudformation:props": {
                         "deploymentId": {
-                          "Ref": "extractTextApiDeploymentA1005754591479fa1c5a03007aa518a2fc053deb"
+                          "Ref": "extractTextApiDeploymentA10057546680db05a06b57c5ce94065239bbb422"
                         },
                         "restApiId": {
                           "Ref": "extractTextApi690A7E22"
@@ -567,7 +809,7 @@
                             "action": "lambda:InvokeFunction",
                             "functionName": {
                               "Fn::GetAtt": [
-                                "extractTextFunction0DBDC995",
+                                "uploadFileFunction2DAC78E7",
                                 "Arn"
                               ]
                             },
@@ -616,7 +858,7 @@
                             "action": "lambda:InvokeFunction",
                             "functionName": {
                               "Fn::GetAtt": [
-                                "extractTextFunction0DBDC995",
+                                "uploadFileFunction2DAC78E7",
                                 "Arn"
                               ]
                             },
@@ -677,7 +919,7 @@
                                     ":lambda:path/2015-03-31/functions/",
                                     {
                                       "Fn::GetAtt": [
-                                        "extractTextFunction0DBDC995",
+                                        "uploadFileFunction2DAC78E7",
                                         "Arn"
                                       ]
                                     },
@@ -1050,7 +1292,7 @@
                                 "action": "lambda:InvokeFunction",
                                 "functionName": {
                                   "Fn::GetAtt": [
-                                    "textRactFunctionBDF5EBE1",
+                                    "TextractFunction6DF7C8EE",
                                     "Arn"
                                   ]
                                 },
@@ -1099,7 +1341,7 @@
                                 "action": "lambda:InvokeFunction",
                                 "functionName": {
                                   "Fn::GetAtt": [
-                                    "textRactFunctionBDF5EBE1",
+                                    "TextractFunction6DF7C8EE",
                                     "Arn"
                                   ]
                                 },
@@ -1160,7 +1402,7 @@
                                         ":lambda:path/2015-03-31/functions/",
                                         {
                                           "Fn::GetAtt": [
-                                            "textRactFunctionBDF5EBE1",
+                                            "TextractFunction6DF7C8EE",
                                             "Arn"
                                           ]
                                         },
