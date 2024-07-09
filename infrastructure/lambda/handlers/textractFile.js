@@ -23,6 +23,12 @@ exports.handler = async (event) => {
 
         const textractData = await textract.detectDocumentText(textractParams).promise();
 
+        // Process the Textract output to extract just the text
+        const extractedText = textractData.Blocks
+            .filter(block => block.BlockType === 'LINE')
+            .map(block => block.Text)
+            .join('\n');
+
         return {
             statusCode: 200,
             headers: {
@@ -32,7 +38,8 @@ exports.handler = async (event) => {
             },
             body: JSON.stringify({
                 message: "Text extracted successfully",
-                textractData: textractData
+                extractedText: extractedText,
+                rawTextractData: textractData  //for debugging 
             }),
         };
     } catch (error) {
