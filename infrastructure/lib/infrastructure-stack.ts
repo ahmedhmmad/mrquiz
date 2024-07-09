@@ -20,16 +20,16 @@ export class InfrastructureStack extends cdk.Stack {
     });
 
     // IAM Role for Lambda to access Textract and S3
-    const textExtractRole = new iam.Role(this, 'TextractRole', {
+    const textractRole = new iam.Role(this, 'TextractRole', {
       assumedBy: new iam.ServicePrincipal('lambda.amazonaws.com'),
     });
-
-    textExtractRole.addManagedPolicy(
+    
+    textractRole.addManagedPolicy(
       iam.ManagedPolicy.fromAwsManagedPolicyName('service-role/AWSLambdaBasicExecutionRole')
     );
-    textExtractRole.addManagedPolicy(iam.ManagedPolicy.fromAwsManagedPolicyName('AmazonTextractFullAccess'));
-    textExtractRole.addManagedPolicy(iam.ManagedPolicy.fromAwsManagedPolicyName('AmazonS3FullAccess'));
-
+    textractRole.addManagedPolicy(iam.ManagedPolicy.fromAwsManagedPolicyName('AmazonTextractFullAccess'));
+    textractRole.addManagedPolicy(iam.ManagedPolicy.fromAwsManagedPolicyName('AmazonS3ReadOnlyAccess'));
+    
     // Lambda function to extract text from uploaded files
     const uploadFileLambda = new Function(this, 'uploadFileFunction', {
       runtime: Runtime.NODEJS_LATEST,
@@ -55,10 +55,11 @@ export class InfrastructureStack extends cdk.Stack {
       runtime: Runtime.NODEJS_LATEST,
       handler: 'handlers/textractFile.handler',
       code: Code.fromAsset('lambda'),
-      role: textExtractRole,
+      role: textractRole,
       environment: {
         BUCKET_NAME: bucket.bucketName,
       },
+      timeout: cdk.Duration.seconds(30), // Increase timeout if needed
     });
 
     // Grant S3 read permissions to Lambda

@@ -1,43 +1,53 @@
-const aws = require('aws-sdk');
+const AWS = require('aws-sdk');
+const textract = new AWS.Textract();
 const s3 = new AWS.S3();
-const textract = new aws.Textract();
 
 exports.handler = async (event) => {
-    const bucketName = process.env.BUCKET_NAME;
-    const { filename } = JSON.parse(event.body);
-
-    const params={
-        Document:{
-            S3Object:{
-                Bucket:bucketName,
-                Name:filename
-            },
-        },
-        FeatureTypes: ['TABLES', 'FORMS'],
-    };
-    
     try {
-        const data = await textract.analyzeDocument(params).promise();
-        console.log(data);
+        const { fileName } = JSON.parse(event.body);
+
+        // Get the file from S3
+        const s3Params = {
+            Bucket: process.env.BUCKET_NAME,
+            Key: fileName
+        };
+
+        const s3Object = await s3.getObject(s3Params).promise();
+
+        // Use Textract to extract text
+        const textractParams = {
+            Document: {
+                Bytes: s3Object.Body
+            }
+        };
+
+        const textractData = await textract.detectDocumentText(textractParams).promise();
+
         return {
             statusCode: 200,
-            body: JSON.stringify({ message: 'File processed successfully' }),
             headers: {
-                'Access-Control-Allow-Origin': '*',
-                'Access-Control-Allow-Methods': 'POST',
-                'Access-Control-Allow-Headers': 'Content-Type',
+                "Access-Control-Allow-Origin": "*",
+                "Access-Control-Allow-Headers": "Content-Type",
+                "Access-Control-Allow-Methods": "OPTIONS,POST"
             },
+            body: JSON.stringify({
+                message: "Text extracted successfully",
+                textractData: textractData
+            }),
         };
     } catch (error) {
-        console.error('Failed to process file:', error);
+        console.error('Error:', error);
         return {
             statusCode: 500,
-            body: JSON.stringify({ message: 'Failed to process file' }),
             headers: {
-                'Access-Control-Allow-Origin': '*',
-                'Access-Control-Allow-Methods': 'POST',
-                'Access-Control-Allow-Headers': 'Content-Type',
+                "Access-Control-Allow-Origin": "*",
+                "Access-Control-Allow-Headers": "Content-Type",
+                "Access-Control-Allow-Methods": "OPTIONS,POST"
             },
+            body: JSON.stringify({
+                message: "Error extracting text",
+                error: error.message
+            }),
         };
     }
-}
+};

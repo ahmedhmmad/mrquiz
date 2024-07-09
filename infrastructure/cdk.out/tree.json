@@ -107,7 +107,7 @@
                             {
                               "Ref": "AWS::Partition"
                             },
-                            ":iam::aws:policy/AmazonS3FullAccess"
+                            ":iam::aws:policy/AmazonS3ReadOnlyAccess"
                           ]
                         ]
                       }
@@ -357,7 +357,7 @@
                       "s3Bucket": {
                         "Fn::Sub": "cdk-hnb659fds-assets-${AWS::AccountId}-${AWS::Region}"
                       },
-                      "s3Key": "b103f4ec71d4097d492126c002e91d22963563731ed0bc1f8d8ec5c6ee79f907.zip"
+                      "s3Key": "d4d18b5c6ae728a102ef1616fee7aadf4c854b1392b1a975799a3aa6f44e456b.zip"
                     },
                     "environment": {
                       "variables": {
@@ -548,7 +548,7 @@
                       "s3Bucket": {
                         "Fn::Sub": "cdk-hnb659fds-assets-${AWS::AccountId}-${AWS::Region}"
                       },
-                      "s3Key": "b103f4ec71d4097d492126c002e91d22963563731ed0bc1f8d8ec5c6ee79f907.zip"
+                      "s3Key": "d4d18b5c6ae728a102ef1616fee7aadf4c854b1392b1a975799a3aa6f44e456b.zip"
                     },
                     "environment": {
                       "variables": {
@@ -618,7 +618,7 @@
                       "s3Bucket": {
                         "Fn::Sub": "cdk-hnb659fds-assets-${AWS::AccountId}-${AWS::Region}"
                       },
-                      "s3Key": "b103f4ec71d4097d492126c002e91d22963563731ed0bc1f8d8ec5c6ee79f907.zip"
+                      "s3Key": "d4d18b5c6ae728a102ef1616fee7aadf4c854b1392b1a975799a3aa6f44e456b.zip"
                     },
                     "environment": {
                       "variables": {
@@ -634,7 +634,8 @@
                         "Arn"
                       ]
                     },
-                    "runtime": "nodejs18.x"
+                    "runtime": "nodejs18.x",
+                    "timeout": 30
                   }
                 },
                 "constructInfo": {
