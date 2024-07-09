@@ -1,9 +1,9 @@
 import * as cdk from 'aws-cdk-lib';
 import * as s3 from 'aws-cdk-lib/aws-s3';
-import * as lambda from 'aws-cdk-lib/aws-lambda';
 import * as apigateway from 'aws-cdk-lib/aws-apigateway';
 import * as iam from 'aws-cdk-lib/aws-iam';
 import * as s3deploy from 'aws-cdk-lib/aws-s3-deployment';
+import {Function,Code,Runtime} from 'aws-cdk-lib/aws-lambda';
 import { Construct } from 'constructs';
 
 export class InfrastructureStack extends cdk.Stack {
@@ -31,10 +31,10 @@ export class InfrastructureStack extends cdk.Stack {
     textExtractRole.addManagedPolicy(iam.ManagedPolicy.fromAwsManagedPolicyName('AmazonS3FullAccess'));
 
     // Lambda function to extract text from uploaded files
-    const extractTextLambda = new lambda.Function(this, 'extractTextFunction', {
-      runtime: lambda.Runtime.NODEJS_20_X,
+    const uploadFileLambda = new Function(this, 'uploadFileFunction', {
+      runtime: Runtime.NODEJS_LATEST,
       handler: 'processFile.handler',
-      code: lambda.Code.fromAsset('lambda'),
+      code: Code.fromAsset('lambda'),
       role: textExtractRole,
       environment: {
         BUCKET_NAME: bucket.bucketName,
@@ -42,10 +42,10 @@ export class InfrastructureStack extends cdk.Stack {
     });
 
     //lambda function to list all the files in the bucket
-    const listFilesLambda = new lambda.Function(this, 'listFilesFunction', {
-      runtime: lambda.Runtime.NODEJS_20_X,
+    const listFilesLambda = new Function(this, 'listFilesFunction', {
+      runtime: Runtime.NODEJS_LATEST,
       handler: 'listFiles.handler',
-      code: lambda.Code.fromAsset('lambda'),
+      code: Code.fromAsset('lambda'),
       role: textExtractRole,
       environment: {
         BUCKET_NAME: bucket.bucketName,
@@ -53,10 +53,10 @@ export class InfrastructureStack extends cdk.Stack {
     });
 
     //lambda function to get the text from the file
-    const textRactLambda = new lambda.Function(this, 'textRactFunction', {
-      runtime: lambda.Runtime.NODEJS_20_X,
+    const textRactLambda = new Function(this, 'uploadFileFunction', {
+      runtime: Runtime.NODEJS_LATEST,
       handler: 'textractFile.handler',
-      code: lambda.Code.fromAsset('lambda'),
+      code: Code.fromAsset('lambda'),
       role: textExtractRole,
       environment: {
         BUCKET_NAME: bucket.bucketName,
@@ -64,7 +64,7 @@ export class InfrastructureStack extends cdk.Stack {
     });
 
     // Grant S3 read permissions to Lambda
-    bucket.grantReadWrite(extractTextLambda);
+    bucket.grantReadWrite(uploadFileLambda);
     bucket.grantRead(listFilesLambda);
     bucket.grantRead(textRactLambda);
 
