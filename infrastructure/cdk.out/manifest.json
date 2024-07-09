@@ -18,7 +18,7 @@
         "validateOnSynth": false,
         "assumeRoleArn": "arn:${AWS::Partition}:iam::${AWS::AccountId}:role/cdk-hnb659fds-deploy-role-${AWS::AccountId}-${AWS::Region}",
         "cloudFormationExecutionRoleArn": "arn:${AWS::Partition}:iam::${AWS::AccountId}:role/cdk-hnb659fds-cfn-exec-role-${AWS::AccountId}-${AWS::Region}",
-        "stackTemplateAssetObjectUrl": "s3://cdk-hnb659fds-assets-${AWS::AccountId}-${AWS::Region}/61dfa72e69ac6ae9030387c429ce752bd29a3cbc776f34f90b59a2140971f377.json",
+        "stackTemplateAssetObjectUrl": "s3://cdk-hnb659fds-assets-${AWS::AccountId}-${AWS::Region}/9e581ef1a1e943cd6693efe11acbee5baed38777e82e807959c9bbb713f4e2f4.json",
         "requiresBootstrapStackVersion": 6,
         "bootstrapStackVersionSsmParameter": "/cdk-bootstrap/hnb659fds/version",
         "additionalDependencies": [
@@ -52,10 +52,34 @@
             "data": "TextractRoleDefaultPolicyD4FA1BCA"
           }
         ],
-        "/InfrastructureStack/extractTextFunction/Resource": [
+        "/InfrastructureStack/uploadFileFunction/ServiceRole/Resource": [
           {
             "type": "aws:cdk:logicalId",
-            "data": "extractTextFunction0DBDC995"
+            "data": "uploadFileFunctionServiceRole8162019C"
+          }
+        ],
+        "/InfrastructureStack/uploadFileFunction/ServiceRole/DefaultPolicy/Resource": [
+          {
+            "type": "aws:cdk:logicalId",
+            "data": "uploadFileFunctionServiceRoleDefaultPolicy5D61DCA6"
+          }
+        ],
+        "/InfrastructureStack/uploadFileFunction/Resource": [
+          {
+            "type": "aws:cdk:logicalId",
+            "data": "uploadFileFunction2DAC78E7"
+          }
+        ],
+        "/InfrastructureStack/listFilesFunction/ServiceRole/Resource": [
+          {
+            "type": "aws:cdk:logicalId",
+            "data": "listFilesFunctionServiceRole82F10D4F"
+          }
+        ],
+        "/InfrastructureStack/listFilesFunction/ServiceRole/DefaultPolicy/Resource": [
+          {
+            "type": "aws:cdk:logicalId",
+            "data": "listFilesFunctionServiceRoleDefaultPolicy4143CF85"
           }
         ],
         "/InfrastructureStack/listFilesFunction/Resource": [
@@ -64,10 +88,10 @@
             "data": "listFilesFunctionF3DCEA9F"
           }
         ],
-        "/InfrastructureStack/textRactFunction/Resource": [
+        "/InfrastructureStack/TextractFunction/Resource": [
           {
             "type": "aws:cdk:logicalId",
-            "data": "textRactFunctionBDF5EBE1"
+            "data": "TextractFunction6DF7C8EE"
           }
         ],
         "/InfrastructureStack/extractTextApi/Resource": [
@@ -79,7 +103,7 @@
         "/InfrastructureStack/extractTextApi/Deployment/Resource": [
           {
             "type": "aws:cdk:logicalId",
-            "data": "extractTextApiDeploymentA1005754591479fa1c5a03007aa518a2fc053deb"
+            "data": "extractTextApiDeploymentA10057546680db05a06b57c5ce94065239bbb422"
           }
         ],
         "/InfrastructureStack/extractTextApi/DeploymentStage.prod/Resource": [

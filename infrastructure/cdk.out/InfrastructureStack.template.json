@@ -88,16 +88,9 @@
      "Statement": [
       {
        "Action": [
-        "s3:Abort*",
-        "s3:DeleteObject*",
         "s3:GetBucket*",
         "s3:GetObject*",
-        "s3:List*",
-        "s3:PutObject",
-        "s3:PutObjectLegalHold",
-        "s3:PutObjectRetention",
-        "s3:PutObjectTagging",
-        "s3:PutObjectVersionTagging"
+        "s3:List*"
        ],
        "Effect": "Allow",
        "Resource": [
@@ -137,14 +130,104 @@
     "aws:cdk:path": "InfrastructureStack/TextractRole/DefaultPolicy/Resource"
    }
   },
-  "extractTextFunction0DBDC995": {
+  "uploadFileFunctionServiceRole8162019C": {
+   "Type": "AWS::IAM::Role",
+   "Properties": {
+    "AssumeRolePolicyDocument": {
+     "Statement": [
+      {
+       "Action": "sts:AssumeRole",
+       "Effect": "Allow",
+       "Principal": {
+        "Service": "lambda.amazonaws.com"
+       }
+      }
+     ],
+     "Version": "2012-10-17"
+    },
+    "ManagedPolicyArns": [
+     {
+      "Fn::Join": [
+       "",
+       [
+        "arn:",
+        {
+         "Ref": "AWS::Partition"
+        },
+        ":iam::aws:policy/service-role/AWSLambdaBasicExecutionRole"
+       ]
+      ]
+     }
+    ]
+   },
+   "Metadata": {
+    "aws:cdk:path": "InfrastructureStack/uploadFileFunction/ServiceRole/Resource"
+   }
+  },
+  "uploadFileFunctionServiceRoleDefaultPolicy5D61DCA6": {
+   "Type": "AWS::IAM::Policy",
+   "Properties": {
+    "PolicyDocument": {
+     "Statement": [
+      {
+       "Action": [
+        "s3:Abort*",
+        "s3:DeleteObject*",
+        "s3:GetBucket*",
+        "s3:GetObject*",
+        "s3:List*",
+        "s3:PutObject",
+        "s3:PutObjectLegalHold",
+        "s3:PutObjectRetention",
+        "s3:PutObjectTagging",
+        "s3:PutObjectVersionTagging"
+       ],
+       "Effect": "Allow",
+       "Resource": [
+        {
+         "Fn::GetAtt": [
+          "newUploadedFile2AB9B21E",
+          "Arn"
+         ]
+        },
+        {
+         "Fn::Join": [
+          "",
+          [
+           {
+            "Fn::GetAtt": [
+             "newUploadedFile2AB9B21E",
+             "Arn"
+            ]
+           },
+           "/*"
+          ]
+         ]
+        }
+       ]
+      }
+     ],
+     "Version": "2012-10-17"
+    },
+    "PolicyName": "uploadFileFunctionServiceRoleDefaultPolicy5D61DCA6",
+    "Roles": [
+     {
+      "Ref": "uploadFileFunctionServiceRole8162019C"
+     }
+    ]
+   },
+   "Metadata": {
+    "aws:cdk:path": "InfrastructureStack/uploadFileFunction/ServiceRole/DefaultPolicy/Resource"
+   }
+  },
+  "uploadFileFunction2DAC78E7": {
    "Type": "AWS::Lambda::Function",
    "Properties": {
     "Code": {
      "S3Bucket": {
       "Fn::Sub": "cdk-hnb659fds-assets-${AWS::AccountId}-${AWS::Region}"
      },
-     "S3Key": "8a0e26935db4efaab48349b8717f9ed9fc5d83b7653b6cc8f381a34e2fe66f53.zip"
+     "S3Key": "b103f4ec71d4097d492126c002e91d22963563731ed0bc1f8d8ec5c6ee79f907.zip"
     },
     "Environment": {
      "Variables": {
@@ -153,24 +236,107 @@
       }
      }
     },
-    "Handler": "processFile.handler",
+    "Handler": "handlers/uploadFile.handler",
     "Role": {
      "Fn::GetAtt": [
-      "TextractRoleA0CE91FA",
+      "uploadFileFunctionServiceRole8162019C",
       "Arn"
      ]
     },
-    "Runtime": "nodejs20.x"
+    "Runtime": "nodejs18.x"
    },
    "DependsOn": [
-    "TextractRoleDefaultPolicyD4FA1BCA",
-    "TextractRoleA0CE91FA"
+    "uploadFileFunctionServiceRoleDefaultPolicy5D61DCA6",
+    "uploadFileFunctionServiceRole8162019C"
    ],
    "Metadata": {
-    "aws:cdk:path": "InfrastructureStack/extractTextFunction/Resource",
-    "aws:asset:path": "asset.8a0e26935db4efaab48349b8717f9ed9fc5d83b7653b6cc8f381a34e2fe66f53",
+    "aws:cdk:path": "InfrastructureStack/uploadFileFunction/Resource",
+    "aws:asset:path": "asset.b103f4ec71d4097d492126c002e91d22963563731ed0bc1f8d8ec5c6ee79f907",
     "aws:asset:is-bundled": false,
     "aws:asset:property": "Code"
+   }
+  },
+  "listFilesFunctionServiceRole82F10D4F": {
+   "Type": "AWS::IAM::Role",
+   "Properties": {
+    "AssumeRolePolicyDocument": {
+     "Statement": [
+      {
+       "Action": "sts:AssumeRole",
+       "Effect": "Allow",
+       "Principal": {
+        "Service": "lambda.amazonaws.com"
+       }
+      }
+     ],
+     "Version": "2012-10-17"
+    },
+    "ManagedPolicyArns": [
+     {
+      "Fn::Join": [
+       "",
+       [
+        "arn:",
+        {
+         "Ref": "AWS::Partition"
+        },
+        ":iam::aws:policy/service-role/AWSLambdaBasicExecutionRole"
+       ]
+      ]
+     }
+    ]
+   },
+   "Metadata": {
+    "aws:cdk:path": "InfrastructureStack/listFilesFunction/ServiceRole/Resource"
+   }
+  },
+  "listFilesFunctionServiceRoleDefaultPolicy4143CF85": {
+   "Type": "AWS::IAM::Policy",
+   "Properties": {
+    "PolicyDocument": {
+     "Statement": [
+      {
+       "Action": [
+        "s3:GetBucket*",
+        "s3:GetObject*",
+        "s3:List*"
+       ],
+       "Effect": "Allow",
+       "Resource": [
+        {
+         "Fn::GetAtt": [
+          "newUploadedFile2AB9B21E",
+          "Arn"
+         ]
+        },
+        {
+         "Fn::Join": [
+          "",
+          [
+           {
+            "Fn::GetAtt": [
+             "newUploadedFile2AB9B21E",
+             "Arn"
+            ]
+           },
+           "/*"
+          ]
+         ]
+        }
+       ]
+      }
+     ],
+     "Version": "2012-10-17"
+    },
+    "PolicyName": "listFilesFunctionServiceRoleDefaultPolicy4143CF85",
+    "Roles": [
+     {
+      "Ref": "listFilesFunctionServiceRole82F10D4F"
+     }
+    ]
+   },
+   "Metadata": {
+    "aws:cdk:path": "InfrastructureStack/listFilesFunction/ServiceRole/DefaultPolicy/Resource"
    }
   },
   "listFilesFunctionF3DCEA9F": {
@@ -180,7 +346,7 @@
      "S3Bucket": {
       "Fn::Sub": "cdk-hnb659fds-assets-${AWS::AccountId}-${AWS::Region}"
      },
-     "S3Key": "8a0e26935db4efaab48349b8717f9ed9fc5d83b7653b6cc8f381a34e2fe66f53.zip"
+     "S3Key": "b103f4ec71d4097d492126c002e91d22963563731ed0bc1f8d8ec5c6ee79f907.zip"
     },
     "Environment": {
      "Variables": {
@@ -189,34 +355,34 @@
       }
      }
     },
-    "Handler": "listFiles.handler",
+    "Handler": "handlers/listFiles.handler",
     "Role": {
      "Fn::GetAtt": [
-      "TextractRoleA0CE91FA",
+      "listFilesFunctionServiceRole82F10D4F",
       "Arn"
      ]
     },
-    "Runtime": "nodejs20.x"
+    "Runtime": "nodejs18.x"
    },
    "DependsOn": [
-    "TextractRoleDefaultPolicyD4FA1BCA",
-    "TextractRoleA0CE91FA"
+    "listFilesFunctionServiceRoleDefaultPolicy4143CF85",
+    "listFilesFunctionServiceRole82F10D4F"
    ],
    "Metadata": {
     "aws:cdk:path": "InfrastructureStack/listFilesFunction/Resource",
-    "aws:asset:path": "asset.8a0e26935db4efaab48349b8717f9ed9fc5d83b7653b6cc8f381a34e2fe66f53",
+    "aws:asset:path": "asset.b103f4ec71d4097d492126c002e91d22963563731ed0bc1f8d8ec5c6ee79f907",
     "aws:asset:is-bundled": false,
     "aws:asset:property": "Code"
    }
   },
-  "textRactFunctionBDF5EBE1": {
+  "TextractFunction6DF7C8EE": {
    "Type": "AWS::Lambda::Function",
    "Properties": {
     "Code": {
      "S3Bucket": {
       "Fn::Sub": "cdk-hnb659fds-assets-${AWS::AccountId}-${AWS::Region}"
      },
-     "S3Key": "8a0e26935db4efaab48349b8717f9ed9fc5d83b7653b6cc8f381a34e2fe66f53.zip"
+     "S3Key": "b103f4ec71d4097d492126c002e91d22963563731ed0bc1f8d8ec5c6ee79f907.zip"
     },
     "Environment": {
      "Variables": {
@@ -225,22 +391,22 @@
       }
      }
     },
-    "Handler": "textractFile.handler",
+    "Handler": "handlers/textractFile.handler",
     "Role": {
      "Fn::GetAtt": [
       "TextractRoleA0CE91FA",
       "Arn"
      ]
     },
-    "Runtime": "nodejs20.x"
+    "Runtime": "nodejs18.x"
    },
    "DependsOn": [
     "TextractRoleDefaultPolicyD4FA1BCA",
     "TextractRoleA0CE91FA"
    ],
    "Metadata": {
-    "aws:cdk:path": "InfrastructureStack/textRactFunction/Resource",
-    "aws:asset:path": "asset.8a0e26935db4efaab48349b8717f9ed9fc5d83b7653b6cc8f381a34e2fe66f53",
+    "aws:cdk:path": "InfrastructureStack/TextractFunction/Resource",
+    "aws:asset:path": "asset.b103f4ec71d4097d492126c002e91d22963563731ed0bc1f8d8ec5c6ee79f907",
     "aws:asset:is-bundled": false,
     "aws:asset:property": "Code"
    }
@@ -254,7 +420,7 @@
     "aws:cdk:path": "InfrastructureStack/extractTextApi/Resource"
    }
   },
-  "extractTextApiDeploymentA1005754591479fa1c5a03007aa518a2fc053deb": {
+  "extractTextApiDeploymentA10057546680db05a06b57c5ce94065239bbb422": {
    "Type": "AWS::ApiGateway::Deployment",
    "Properties": {
     "Description": "Automatically created by the RestApi construct",
@@ -280,7 +446,7 @@
    "Type": "AWS::ApiGateway::Stage",
    "Properties": {
     "DeploymentId": {
-     "Ref": "extractTextApiDeploymentA1005754591479fa1c5a03007aa518a2fc053deb"
+     "Ref": "extractTextApiDeploymentA10057546680db05a06b57c5ce94065239bbb422"
     },
     "RestApiId": {
      "Ref": "extractTextApi690A7E22"
@@ -343,7 +509,7 @@
     "Action": "lambda:InvokeFunction",
     "FunctionName": {
      "Fn::GetAtt": [
-      "extractTextFunction0DBDC995",
+      "uploadFileFunction2DAC78E7",
       "Arn"
      ]
     },
@@ -387,7 +553,7 @@
     "Action": "lambda:InvokeFunction",
     "FunctionName": {
      "Fn::GetAtt": [
-      "extractTextFunction0DBDC995",
+      "uploadFileFunction2DAC78E7",
       "Arn"
      ]
     },
@@ -444,7 +610,7 @@
         ":lambda:path/2015-03-31/functions/",
         {
          "Fn::GetAtt": [
-          "extractTextFunction0DBDC995",
+          "uploadFileFunction2DAC78E7",
           "Arn"
          ]
         },
@@ -722,7 +888,7 @@
     "Action": "lambda:InvokeFunction",
     "FunctionName": {
      "Fn::GetAtt": [
-      "textRactFunctionBDF5EBE1",
+      "TextractFunction6DF7C8EE",
       "Arn"
      ]
     },
@@ -766,7 +932,7 @@
     "Action": "lambda:InvokeFunction",
     "FunctionName": {
      "Fn::GetAtt": [
-      "textRactFunctionBDF5EBE1",
+      "TextractFunction6DF7C8EE",
       "Arn"
      ]
     },
@@ -823,7 +989,7 @@
         ":lambda:path/2015-03-31/functions/",
         {
          "Fn::GetAtt": [
-          "textRactFunctionBDF5EBE1",
+          "TextractFunction6DF7C8EE",
           "Arn"
          ]
         },
@@ -876,7 +1042,7 @@
      }
     ],
     "SourceObjectKeys": [
-     "3b01231ecc146ca55b2a5f7a21cf9feff8497694b349bcf3c30ba0958852a48f.zip"
+     "2eeabfca2e90b63108485c5719e6fc48e005ccbf9fb1c5760bd3e25262290464.zip"
     ],
     "DestinationBucketName": {
      "Ref": "newUploadedFile2AB9B21E"
