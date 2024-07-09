@@ -1,8 +1,9 @@
 import React, { useState, useEffect } from 'react';
+import { Routes, Route, Link } from 'react-router-dom';
 import axios from 'axios';
-import FileInput from './FileInput';
-import ListFiles from './ListFiles';
-import TextractFile from './TextractFile';
+import Upload from '../routes/Upload';
+import Files from '../routes/Files';
+import Textract from '../routes/Textract';
 
 const Dashboard = () => {
   const [files, setFiles] = useState([]);
@@ -42,7 +43,7 @@ const Dashboard = () => {
 
   const handleFileSelect = (file) => {
     setSelectedFile(file);
-    setTextractResult(null); // Reset the previous textract result when a new file is selected
+    setTextractResult(null); 
   };
 
   const handleTextract = async (fileName) => {
@@ -55,21 +56,34 @@ const Dashboard = () => {
   };
 
   return (
-    <div className="container mx-auto p-4">
-      <h1 className="text-3xl font-bold mb-4">Dashboard</h1>
-      <FileInput onUpload={handleFileUpload} />
-      <ListFiles files={files} onFileSelect={handleFileSelect} />
-      {selectedFile && (
-        <div className="my-4">
-          <TextractFile fileName={selectedFile} onTextract={handleTextract} />
-        </div>
-      )}
-      {textractResult && (
-        <div className="my-4">
-          <h3 className="text-xl font-bold">Textract Result:</h3>
-          <pre className="bg-gray-100 p-4 rounded">{JSON.stringify(textractResult, null, 2)}</pre>
-        </div>
-      )}
+    <div className="flex min-h-screen">
+      {/* Sidebar */}
+      <div className="w-1/4 bg-gray-200 p-4">
+        <h2 className="text-2xl font-bold mb-4">Navigation</h2>
+        <nav>
+          <ul>
+            <li className="mb-2">
+              <Link to="/upload" className="text-blue-600 hover:underline">Upload File</Link>
+            </li>
+            <li className="mb-2">
+              <Link to="/files" className="text-blue-600 hover:underline">Files List</Link>
+            </li>
+            <li className="mb-2">
+              <Link to="/textract" className="text-blue-600 hover:underline">Textract File</Link>
+            </li>
+          </ul>
+        </nav>
+      </div>
+
+      {/* Main Content */}
+      <div className="w-3/4 bg-white p-4">
+        
+        <Routes>
+          <Route path="/upload" element={<Upload onUpload={handleFileUpload} />} />
+          <Route path="/files" element={<Files files={files} onFileSelect={handleFileSelect} />} />
+          <Route path="/textract" element={<Textract selectedFile={selectedFile} onTextract={handleTextract} textractResult={textractResult} />} />
+        </Routes>
+      </div>
     </div>
   );
 };
