@@ -33,7 +33,7 @@ export class InfrastructureStack extends cdk.Stack {
     // Lambda function to extract text from uploaded files
     const uploadFileLambda = new Function(this, 'uploadFileFunction', {
       runtime: Runtime.NODEJS_LATEST,
-      handler: 'processFile.handler',
+      handler: 'uploadFile.handler',
       code: Code.fromAsset('lambda'),
       role: textExtractRole,
       environment: {
@@ -80,7 +80,7 @@ export class InfrastructureStack extends cdk.Stack {
     
     
 
-    const uploadIntegration = new apigateway.LambdaIntegration(extractTextLambda);
+    const uploadIntegration = new apigateway.LambdaIntegration(uploadFileLambda);
     api.root.addMethod('POST', uploadIntegration);
 
     

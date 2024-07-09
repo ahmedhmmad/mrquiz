@@ -55,17 +55,19 @@ const Dashboard = () => {
   };
 
   return (
-    <div>
-      <h1>Dashboard</h1>
+    <div className="container mx-auto p-4">
+      <h1 className="text-3xl font-bold mb-4">Dashboard</h1>
       <FileInput onUpload={handleFileUpload} />
       <ListFiles files={files} onFileSelect={handleFileSelect} />
       {selectedFile && (
-        <TextractFile fileName={selectedFile} onTextract={handleTextract} />
+        <div className="my-4">
+          <TextractFile fileName={selectedFile} onTextract={handleTextract} />
+        </div>
       )}
       {textractResult && (
-        <div>
-          <h3>Textract Result:</h3>
-          <pre>{JSON.stringify(textractResult, null, 2)}</pre>
+        <div className="my-4">
+          <h3 className="text-xl font-bold">Textract Result:</h3>
+          <pre className="bg-gray-100 p-4 rounded">{JSON.stringify(textractResult, null, 2)}</pre>
         </div>
       )}
     </div>
