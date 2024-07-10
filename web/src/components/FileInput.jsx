@@ -24,6 +24,7 @@ const FileInput = () => {
             try {
                 const fileContent = reader.result.split(',')[1]; 
                 const fileName = file.name;
+                console.log(fileName);
 
                 const response = await fetch('https://2e244dyrfj.execute-api.us-east-1.amazonaws.com/prod/', {
                     method: 'POST',

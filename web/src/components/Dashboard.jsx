@@ -1,9 +1,10 @@
 import React, { useState, useEffect } from 'react';
 import { Routes, Route, Link } from 'react-router-dom';
 import axios from 'axios';
-import Upload from '../routes/Upload';
+
 import Files from '../routes/Files';
 import Textract from '../routes/Textract';
+import Upload from '../routes/upload';
 
 const Dashboard = () => {
   const [files, setFiles] = useState([]);
@@ -77,7 +78,6 @@ const Dashboard = () => {
 
       {/* Main Content */}
       <div className="w-3/4 bg-white p-4">
-        
         <Routes>
           <Route path="/upload" element={<Upload onUpload={handleFileUpload} />} />
           <Route path="/files" element={<Files files={files} onFileSelect={handleFileSelect} />} />
